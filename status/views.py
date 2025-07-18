@@ -9,13 +9,11 @@ from rest_framework.response import Response
 
 class ScheduleViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
-    queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
-    
-    def list(self, request):
-        queryset = self.queryset
-        serializer = self.serializer_class(queryset,many = True)
-        return Response(serializer.data)
+    queryset = Schedule.objects.all()
+    def get_queryset(self):
+        return Schedule.objects.all()
+   
 
     def create(self, request):
         serialzer = self.serializer_class(data = request.data)
@@ -41,8 +39,8 @@ class StatusViewSet(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
 
     def list(self,request):
-        queryset = self.queryset
-        serializer = self.serializer_class(queryset,many = True)
+        queryset = Schedule.objects.all()  # instead of self.queryset
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
         
     
